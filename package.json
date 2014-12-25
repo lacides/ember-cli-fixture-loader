@@ -18,6 +18,10 @@
       "email": "lcharris89@gmail.com"
     }
   ],
+  "repository" : {
+    "type": "git",
+    "url": "git://github.com/lacides/ember-cli-fixture-loader.git"
+  },
   "dependencies": {},
   "devDependencies": {}
 }
