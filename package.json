@@ -1,0 +1,23 @@
+{
+  "name": "ember-cli-fixture-loader",
+  "version": "0.0.1",
+  "description": "A fixture loader to keep your fixtures separate from your models",
+  "scripts": {
+    "test": "echo \"No tests written\" && exit 1"
+  },
+  "keywords": [
+    "ember-addon"
+  ],
+  "author": {
+    "name": "Lacides Charris"
+  },
+  "license": "MIT",
+  "maintainers": [
+    {
+      "name": "lacidesc",
+      "email": "lcharris89@gmail.com"
+    }
+  ],
+  "dependencies": {},
+  "devDependencies": {}
+}
