@@ -1,9 +1,9 @@
 export default {
   name: 'load-fixtures',
 
-  initialize: function() {
+  initialize: function(container, app) {
     Object.keys(require._eak_seen).forEach(function(module) {
-      if (!module.match(/^\w[\w\d\-]+\/models/)) {
+      if (module.indexOf(app.modulePrefix + '/models/') !== 0) {
         return;
       }
       var model = require(module)['default'];
