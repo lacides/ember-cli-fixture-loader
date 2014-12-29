@@ -1,6 +1,6 @@
 {
   "name": "ember-cli-fixture-loader",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A fixture loader to keep your fixtures separate from your models",
   "scripts": {
     "test": "echo \"No tests written\" && exit 1"
