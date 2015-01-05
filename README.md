@@ -5,7 +5,7 @@ An [ember-cli](http://ember-cli.com) addon to keep your fixtures separate from y
 
 
 ## Install
-Install the addon and runt the ember-cli blueprint.
+Install the addon and run the ember-cli blueprint.
 
 ```
 npm install ember-cli-fixture-loader --save
