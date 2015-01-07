@@ -9,12 +9,34 @@ Install the addon and runt the ember-cli blueprint.
 
 ```
 npm install ember-cli-fixture-loader --save
-ember generate fixture <model-name>
 ```
+
+## Fixture Generation
+
+### To generate fixture with standard syntax:
+
+```
+ember generate fixture <model-name>
+ember generate fixture <model-name> --pod
+```
+
+It will generate `app/fixtures/tag.js` and `app/pods/tag/fixture.js` respectively
+
+## Configuration
+This addon can be configured in environment config:
+
+```javascript
+ENV.FIXTURES = {
+  enabled: true
+};
+```
+
+`enabled: true/false` - control whether fixture addon will search for fixtures or not. 
+Also you can use this setting in adapter to control which adapter should be used.
 
 ## Usage
 
-Instead of ```Model.reopenClass({...})```, your fixtures will be loaded from the ```/app/fixtures/``` folder.
+```Model.reopenClass({...})``` will be handled automatically based on where fixture for model can be found: 
 
 Example ```/app/models/post.js```
 
@@ -26,7 +48,7 @@ export default DS.Model.extend({
 });
 ```
 
-Example ```/app/fixtures/post.js```
+Example `/app/fixtures/post.js` or `/app/pods/post/fixture.js`
 
 ```javascript
 export default [
@@ -40,6 +62,36 @@ export default [
  }
 ];
 ```
+
+## FixtureAdapter per environment control
+
+If you want to dynamically control adapter based on enabled or disabled Fixtures setting, you can do it
+easily in application adapter:
+
+```javascript
+import DS from 'ember-data';
+import Configuration from '<app-name>/config/environment';
+
+var adapter = DS.RESTAdapter.extend();
+
+if (Configuration.FIXTURES.enabled) {
+  adapter = DS.FixtureAdapter.extend();
+}
+
+export default adapter;
+```
+
+Also you can control adapter by each model type, consider case when part of the API was released but other part
+is in development.
+
+## Troubleshooting
+
+```
+Error while processing route: templates Assertion Failed: Unable to find fixtures for model type 
+```
+
+you have enabled Fixture adapter for the model, which do not have fixtures but you request this model via store. 
+Add fixture for this model. 
 
 ## Contributing
 

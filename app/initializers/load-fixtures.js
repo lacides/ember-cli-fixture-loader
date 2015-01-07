@@ -1,24 +1,51 @@
+import config from '../config/environment';
+
 export default {
   name: 'load-fixtures',
 
-  initialize: function(container, app) {
-    Object.keys(require._eak_seen).forEach(function(module) {
-      if (module.indexOf(app.modulePrefix + '/models/') !== 0) {
+  initialize: function (container, app) {
+    if (!config.FIXTURES) {
+      config.FIXTURES = {};
+    }
+
+    if (!config.FIXTURES.enabled) {
+      return;
+    }
+
+    Object.keys(require._eak_seen).forEach(function (service) {
+      var podFixtureRegexp,
+        modelPath,
+        modelInstance,
+        fixturePath,
+        fixtures,
+        isPodFixture;
+
+      podFixtureRegexp = new RegExp(app.podModulePrefix + '/(.*?)/fixture');
+
+      isPodFixture = podFixtureRegexp.test(service);
+
+      if (!~service.indexOf(app.modulePrefix + '/models/') && !isPodFixture) {
         return;
       }
-      var model = require(module)['default'];
-      var fixtureModule = module.replace('/models/', '/fixtures/');
-      var fixtures;
+
+      modelPath = isPodFixture ? service.replace('/fixture', '/model') : service;
+      fixturePath = isPodFixture ? service : service.replace('/models/', '/fixtures/');
+
+      modelInstance = require(modelPath)['default'];
+
       try {
-        fixtures = require(fixtureModule)['default'];
+        fixtures = require(fixturePath)['default'];
       } catch (error) {
         fixtures = [];
       }
 
-      fixtures = Ember.copy(fixtures, true);
-      model.reopenClass({
-        FIXTURES: fixtures
-      });
+      if (fixtures.length) {
+        fixtures = Ember.copy(fixtures, true);
+
+        modelInstance.reopenClass({
+          FIXTURES: fixtures
+        });
+      }
     });
   }
 };
